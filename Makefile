@@ -1,5 +1,5 @@
-EXEC = elastic
-PKG  = github.com/Rolinh/elastic-go
+EXEC = esg
+PKG  = github.com/rubiojr/elastic-go
 
 all: check test build
 
@@ -20,9 +20,10 @@ check:
 	golint
 
 deps:
-	go get -u github.com/codegangsta/cli
 	go get -u github.com/gilliek/go-xterm256/xterm256
 	go get -u github.com/hokaccha/go-prettyjson
+	go get -u github.com/rivo/tview
+	go get -u github.com/urfave/cli
 
 deps-dev: deps
 	go get -u -v github.com/golang/lint/golint
