@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"regexp"
 	"strings"
 	"time"
 
@@ -173,7 +174,12 @@ func colorizeStatus(status string) string {
 
 func tunnel(c *cli.Context) {
 	if c.GlobalString("tunnel-host") != "" {
+		r := regexp.MustCompile(`^[0-9]+:[a-zA-Z-\.]+:[0-9]+$`)
 		endpoint := c.GlobalString("tunnel-endpoint")
+		if !r.MatchString(endpoint) {
+			fmt.Println("Invalid tunnel endpoint string.")
+			os.Exit(1)
+		}
 		_tunnel = sshtunnel.Tunnel(c.GlobalString("tunnel-user"), c.GlobalString("tunnel-host"), c.GlobalInt("tunnel-port"), endpoint)
 		hostport := strings.Split(endpoint, ":")[1:3]
 		for i := 1; i <= 10; i++ {
