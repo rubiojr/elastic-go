@@ -55,6 +55,7 @@ func Init() {
 		cli.StringFlag{
 			Name:  "tunnel-user",
 			Usage: "Tunnel user",
+			Value: os.Getenv("USER"),
 		},
 		cli.IntFlag{
 			Name:  "tunnel-port",
