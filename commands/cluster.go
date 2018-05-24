@@ -64,9 +64,9 @@ func cmdCluster(c *cli.Context, subCmd string) string {
 	var arg string
 	switch subCmd {
 	case "health":
-		arg = "/health"
+		arg = "health"
 	case "state":
-		arg = "/state"
+		arg = "state"
 	default:
 		arg = ""
 	}
