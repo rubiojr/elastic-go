@@ -1,5 +1,5 @@
 EXEC = esg
-PKG  = github.com/rubiojr/elastic-go
+PKG  = github.com/rubiojr/esg
 
 all: check test build
 

@@ -1,3 +1,12 @@
+// Copyright 2015-2018 The elastic.go authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+//
+// Author: Robin Hahling <robin.hahling@gw-computing.net>
+// Author: Sergio Rubio <sergio@rubio.im>
+
+// A command line tool to query the Elasticsearch REST API.
+
 package commands
 
 import (
@@ -13,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rubiojr/elastic-go/sshtunnel"
+	"github.com/rubiojr/esg/sshtunnel"
 	"github.com/urfave/cli"
 
 	"github.com/gilliek/go-xterm256/xterm256"
@@ -28,11 +37,11 @@ func RegisterCommand(command *cli.Command) {
 }
 
 func Init() {
-	app.Name = "elastic"
+	app.Name = "esg"
 	app.Usage = "A command line tool to query the Elasticsearch REST API"
 	app.Version = "1.0.1"
-	app.Author = "Robin Hahling"
-	app.Email = "robin.hahling@gw-computing.net"
+	app.Author = "Sergio Rubio"
+	app.Email = "sergio@rubio.im"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "baseurl",

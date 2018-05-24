@@ -9,7 +9,7 @@
 package main
 
 import (
-	"github.com/rubiojr/elastic-go/commands"
+	"github.com/rubiojr/esg/commands"
 )
 
 func main() {

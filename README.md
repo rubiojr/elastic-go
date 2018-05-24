@@ -1,52 +1,29 @@
-# elastic.go - A command-line tool to query the Elasticsearch REST API
+# A command-line tool to query the Elasticsearch REST API
 
-`elastic.go` was born to turn commands that look like this:
+Elasticsearch commandline interface.
 
-```
-curl -XGET 'http://localhost:9200/_nodes/_all/host,ip' | python -m json.tool
-```
-
-into this:
-
-```
-elastic node list
-```
-
-`elastic` fetches data from your Elasticsearch instance, formats the data
-nicely when it is JSON compressed data, and adds a bit of colors to make it more
-readable to the human eye. It aims at providing shortcuts for all default
-Elasticsearch routes. For instance, you can get the cluster health with
-`elastic cluster health` (or `elastic c he` for short).
-
-Of course, you can still issue any `GET` requests with
-`elastic query <YOUR REQUEST HERE>` (or `elastic q` for short), like
-`elastic q twitter/tweet,user/_search?q=user:kimchy'`.
-By design, only `GET` requests are allowed. I wanted to make it easy to query
-Elasticseach indexes, not deleting them so use the good old `curl -XDELETE ...`
-if this is what you want to achieve.
-There is currently no support for `PUT` requests either since I have no use for
-it. Pull requests are welcome however.
+Forked from https://github.com/Rolinh/elastic-go originally, aims to be a more modular with friendlier output than the original tool.
 
 ## Installation
 
 Providing that [Go](https://golang.org) is installed and that `$GOPATH` is set,
 simply use the following command:
 ```
-go get -u github.com/Rolinh/elastic-go
+go get -u github.com/rubiojr/esg
 ```
 
 Make sure that `$GOPATH/bin` is in your `$PATH`.
 
 ## Usage
 
-`elastic help` provides general help:
+`esg help` provides general help:
 ```
-$ elastic help
+$ esg help
 NAME:
-   elastic - A command line tool to query the Elasticsearch REST API
+   esg - A command line tool to query the Elasticsearch REST API
 
 USAGE:
-   elastic [global options] command [command options] [arguments...]
+   esg [global options] command [command options] [arguments...]
 
 VERSION:
    1.0.0
@@ -70,12 +47,12 @@ GLOBAL OPTIONS:
 
 Help works for any subcommand as well. For instance:
 ```
-$ elastic index help
+$ esg index help
 NAME:
-   elastic index - Get index information
+   esg index - Get index information
 
 USAGE:
-   elastic index [global options] command [command options] [arguments...]
+   esg index [global options] command [command options] [arguments...]
 
 VERSION:
    1.0.0
