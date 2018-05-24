@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/rubiojr/esg/sshtunnel"
+	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 
 	"github.com/gilliek/go-xterm256/xterm256"
@@ -92,6 +93,8 @@ func fatal(err error) {
 }
 
 func getJSONBytes(route string) ([]byte, error) {
+	tstart := time.Now()
+
 	r, err := http.Get(route)
 	if err != nil {
 		return nil, err
@@ -117,10 +120,14 @@ func getJSONBytes(route string) ([]byte, error) {
 	if err == nil && data != nil {
 		return data, nil
 	}
+	elapsed := time.Since(tstart)
+	log.Debugf("Request took %s", elapsed)
 	return nil, err
 }
 
 func getJSON(route string) (string, error) {
+	tstart := time.Now()
+
 	r, err := http.Get(route)
 	if err != nil {
 		return "", err
@@ -147,11 +154,16 @@ func getJSON(route string) (string, error) {
 		return "", err
 	}
 
+	elapsed := time.Since(tstart)
+	log.Debugf("Request took %s", elapsed)
+
 	out, err := prettyjson.Marshal(b)
 	return string(out), err
 }
 
 func getRaw(route string) (string, error) {
+	log.Debugf("Route: %s", route)
+	tstart := time.Now()
 	r, err := http.Get(route)
 	if err != nil {
 		return "", err
@@ -163,6 +175,8 @@ func getRaw(route string) (string, error) {
 	}
 
 	out, err := ioutil.ReadAll(r.Body)
+	elapsed := time.Since(tstart)
+	log.Debugf("Request took %s", elapsed)
 	return string(out), err
 }
 

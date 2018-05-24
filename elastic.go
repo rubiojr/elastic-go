@@ -10,8 +10,10 @@ package main
 
 import (
 	"github.com/rubiojr/esg/commands"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
+	log.SetLevel(log.DebugLevel)
 	commands.Init()
 }

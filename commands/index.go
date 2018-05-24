@@ -10,9 +10,12 @@ package commands
 import (
 	"bufio"
 	"fmt"
+	"regexp"
 	"sort"
 	"strings"
+	"time"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
@@ -152,9 +155,40 @@ func filteredSizeIndexes(list string) []string {
 		if len(elmts) < 8 {
 			continue
 		}
-		out = append(out, fmt.Sprintf("%10s %s", elmts[7], elmts[2]))
+		// ES 6.X output lists UUIDs for indices also, so it has one more element
+		if len(elmts) < 10 {
+			out = append(out, fmt.Sprintf("%10s %s", elmts[7], elmts[2]))
+		} else {
+			out = append(out, fmt.Sprintf("%10s %s", elmts[8], elmts[2]))
+		}
 	}
-	return out
+
+	start := time.Now()
+
+	sort.Strings(out)
+
+	mb := regexp.MustCompile(`[0-9\\.]+mb`)
+	gb := regexp.MustCompile(`[0-9\\.]+gb`)
+	kb := regexp.MustCompile(`[0-9\\.]+kb`)
+	m := make(map[string][]string)
+	for _, v := range out {
+		if mb.MatchString(v) {
+			m["mb"] = append(m["mb"], v)
+		} else if gb.MatchString(v) {
+			m["gb"] = append(m["gb"], v)
+		} else if kb.MatchString(v) {
+			m["kb"] = append(m["kb"], v)
+		}
+	}
+	na := []string{}
+	na = append(na, m["kb"]...)
+	na = append(na, m["mb"]...)
+	na = append(na, m["gb"]...)
+
+	elapsed := time.Since(start)
+	log.Debugf("Sorting took %s", elapsed)
+
+	return na
 }
 
 func cmdIndex(c *cli.Context, subCmd string) string {
