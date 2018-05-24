@@ -69,6 +69,15 @@ func Init() {
 			Value: "9200:localhost:9200",
 		},
 	}
+	app.Before = func(c *cli.Context) error {
+
+		bu := c.GlobalString("baseurl")
+		if !strings.HasSuffix(bu, "/") {
+			c.GlobalSet("baseurl", bu+"/")
+		}
+		return nil
+	}
+
 	defer func() {
 		if _tunnel != nil {
 			_tunnel.Process.Kill()
